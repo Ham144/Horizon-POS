@@ -56,5 +56,7 @@
 -edit manual di item_library (increase / decrease)
 -sync mobile (increase / decrease)
 -void (decrease)
+[x]ganti Catur pos jadi Horizon POS di BE dan FE
+[]ganti Catur pos jadi Horizon POS di mobile
 
 //pengingat dari pk jsa: Jangan turutuin perubahan data pake query DB dri pak jeff

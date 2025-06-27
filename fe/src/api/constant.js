@@ -150,7 +150,7 @@ export const mockBackend = [
   },
   {
     originalPath: "/api/v1/auth/loginMobile",
-    description: "API untuk login ke App mobile Catur POS",
+    description: "API untuk login ke App mobile Horizon POS",
   },
   {
     originalPath: "/api/v1/auth/getUserById/:id",

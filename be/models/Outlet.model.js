@@ -40,6 +40,12 @@ const outletSchema = mongoose.Schema({
     type: String,
     default: "00:00", //00:00
   },
+  organizationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Organization",
+    required: true,
+  },
+
 });
 
 const Outlet = mongoose.model("Outlet", outletSchema);

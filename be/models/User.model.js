@@ -16,14 +16,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isEmailVerified: {
+      type: Boolean,
+      default: false
+    },
     telepon: {
       type: String,
     },
-    otp: {
-      type: Number,
-    },
-    otpExpiredAt: {
+    registerCryto: String,
+    registerCrytoExpiresIn: {
       type: Date,
+      default: new Date(new Date().getHours() + 24)
     },
     skuTerjual: [
       {
@@ -52,6 +55,11 @@ const userSchema = new mongoose.Schema(
     kodeKasir: {
       type: String,
     }, //3 huruf random dari usernamenya exp: HM1 krn username yafizham
+    organizationId: {
+      // foreign key
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Organization",
+    },
   },
   { timestamps: true }
 );
