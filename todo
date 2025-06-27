@@ -1,0 +1,60 @@
+✅web : simpan token di cookie (cors creadentials: true, /login res.cookie, cookieParser())
+✅Ganti secure true jika production kalau prod https (auth.route /login)
+✅perbaiki customer
+✅perbaiki voucher
+
+✅-perbaiki tidak bisa print di prod
+✅-fix struk & tambh config footer(npwp, alamat, nama perusahaan) edit di outlet
+✅-fitur settlement : fitur untuk print hasil rekap penjualan(meliputi: totalHarga, totalPenjualan) ditanggal yang sama.
+✅-Dialog nomorTransaksi saat bayar (opsional)
+✅-fitur ganti quantity free bonus ditengah jalan
+✅-fitur batalin (void) dari mobile dan konfirmasi di web
+✅-perbaiki complete all PO(invalidate queries nya ga jalan)
+✅-tambah field hubungkan outlet dengan brand tertentu saja
+✅-tambah fitur reset data sebagian, untuk initilisasi data dari awal lagi(untuk kasus brand ditambah saat user sudah load item Library/inventory)
+✅-fitur filter by brand di /item_library (default: brand terkait)
+
+## //retest dan sempurna kan fitur
+
+//fixing bug besar
+✅-fix printer mengembalikan berhasil, tapi tidak keluar
+✅-fitur voucher penyempurnaan bisa discan QR & share, bisa di redeem, voucher code terkirim keemail customer, voucher redemption perlu online untuk menghindari redeem curang di outlet yang berbeda
+✅-optimasi lanjutan: cari peluang penumpukan cache penggunaan terus menerus lama.
+✅-csv horizontal saja kecuali 2 item dalam currentBill
+✅-salesReport: hanya tamplin filter dan penjualan berdasarkan metode pembayaran
+✅-hanya download spg ke asyncstorage yang terkait my outlet sj
+
+✅-voucher bisa scan qr dan redeem langsung kirim keemail [private voucher]
+✅-private voucher bisa redeem di mobile
+✅-mencari bug fitur void
+-ada field baru di outlet periodeSettlement, jamSettlement, dan field kodeInvoice di oulet, gunanya untuk filtering perolehan kasir dan spg dan outlet utamannya, per periode settlement yang ditentukan(query settlemnt: ambil semua invoice, lalu filter outletnya dengan kodeOutlet yang terdapat didalam kodeInvoice, lalu filter tanggal nya, dst).
+✅-fitur pagination rusak di item_library
+
+//belakangan
+-kasih security [rate limiter, helmet, csrf, dll]
+-bug edit modalBrandPick di web
+
+[x] fix: search sku manual edit PO
+[x] fix: gagal receive PO krn quantity negativ (fix: matikan tombol selesaikan semua)
+[x] fix: settlement total (mobile) tidak sama dengan yg diweb karena optimasi data
+[x] fix: pencegahan SKU duplikat dalam 1 PO
+[x] fix: fitur Sorting kolom invoices dan item_library
+[x] download csv PO simple
+
+//perubahan mobile
+[x] invoice print auto dua kali (ori dan copy)
+[x] fitur: print struk end of day : pengelompokan transaksi hari ini berdasarkan sku (logic backend jg)
+[x] update: pemindahan logika (settlement pengelompokan payment method) ke backend supaya ngitungnya cepat
+[x] fitur: ext code sudah bisa dicari di page invoice(web) dan bill history
+[x] fix: fitur promo, diskon, futureVoucher harusnya default aktiv bukan inactive
+//perubahan web
+[x] fitur: stack trace tiap item dari awal spawn hingga tiap perubahan item di item_library dan downloadable di buku besar item. meliputi :  
+-bulPriceupdate ga nemu(spawn)
+-create manual di item_library (spawn)
+-perbarui data dari middleware (spawn)
+-bulPrice update quantity (increase / decrease),
+-edit manual di item_library (increase / decrease)
+-sync mobile (increase / decrease)
+-void (decrease)
+
+//pengingat dari pk jsa: Jangan turutuin perubahan data pake query DB dri pak jeff
