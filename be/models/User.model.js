@@ -2,19 +2,15 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    username: {
-      //sudah jadi FK
+    email: { //jadikan ini PK  utama
+      type: String,
+      required: true,
+      unique: true
+    },
+    username: { //ini juga ga boleh diganti udah semuk kali codingannya dan banyak yang makai ini sebagai FK
       type: String,
       required: true,
       unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
     },
     isEmailVerified: {
       type: Boolean,

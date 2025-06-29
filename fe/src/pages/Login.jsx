@@ -89,7 +89,7 @@ export default function Login({ className, ...props }) {
 	return (
 		<div
 			className={cn(
-				"flex min-h-screen items-center justify-center bg-base-200",
+				"flex min-h-screen items-center justify-center ",
 				className
 			)}
 			{...props}
@@ -99,7 +99,7 @@ export default function Login({ className, ...props }) {
 					<div className="relative flex  justify-center items-center p-4 -mt-20 ">
 						{!(isPending || isVerifying) ? (
 							<img
-								src="/csi-logo2.png"
+								src="/horpar-logo.png"
 								alt="Horizon Pos Logo"
 								width={120}
 								height={120}
@@ -122,7 +122,7 @@ export default function Login({ className, ...props }) {
 					>
 						<div className="flex flex-col gap-6">
 							<div className="flex flex-col items-center text-center">
-								<h1 className="text-2xl font-bold text-primary">Horizon Pos</h1>
+								<h1 className="text-2xl font-bold text-primary">HORIZON POS</h1>
 								<p className="text-balance text-sm text-base-content/70">
 									Masuk ke Backoffice Horizon Pos
 								</p>
@@ -139,7 +139,7 @@ export default function Login({ className, ...props }) {
 										type="text"
 										placeholder="Input username anda"
 										required
-										className="border-base-content/20"
+										className="border-base-content/20 text-black"
 										disabled={isPending || isVerifying}
 									/>
 								</div>
@@ -153,7 +153,7 @@ export default function Login({ className, ...props }) {
 										value={password}
 										onChange={(e) => setPassword(e.target.value)}
 										required
-										className="border-base-content/20"
+										className="border-base-content/20 text-black"
 										disabled={isPending || isVerifying}
 									/>
 								</div>

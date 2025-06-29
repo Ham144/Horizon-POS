@@ -194,17 +194,12 @@ router.get("/verify/:registerCrypto", async (req, res) => {
   }
 })
 
-//login web
+//login diganti pakai magic link aja ya  
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!password) {
-    return res.status(400).json({ message: "password diperlukan" });
-  }
-
+  const { email } = req.body;
 
   try {
-    const userDB = await UserRefrensi.findOne({ username });
+    const userDB = await UserRefrensi.findOne({ email });
     if (userDB.emailVerified) {
       return res.status(400).json({ message: "email mendaftar belum terkonfirmasi. konfirmasi terlebih dahulu, lihat inbox" })
     }

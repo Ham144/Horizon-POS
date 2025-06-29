@@ -197,7 +197,7 @@ const SideDrawer = ({ children }) => {
 					<div className="flex items-center space-x-3">
 						<div className="w-12 h-12 rounded-2xl bg-white shadow-lg flex items-center justify-center">
 							<img
-								src="./horpar.png"
+								src="./horpar-logo.png"
 								alt="Horizon Pos Logo"
 								className="w-10 h-10 object-contain rounded-xl"
 							/>
@@ -353,7 +353,7 @@ const SideDrawer = ({ children }) => {
 
 			{/* Main Content */}
 			<div
-				className={`flex-1 bg-gray-50 p-6 overflow-auto transition-all duration-300 ease-in-out ${
+				className={`flex-1  p-6 overflow-auto transition-all duration-300 ease-in-out ${
 					sidebarOpen ? "md:ml-0" : "md:ml-0"
 				}`}
 			>

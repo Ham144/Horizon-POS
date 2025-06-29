@@ -27,7 +27,7 @@ const MenuNavigation = () => {
 					<div className="navbar-start px-3">
 						<div className="relative flex justify-center items-center ">
 							<img
-								src="./csi-logo2.png"
+								src="./horpar-logo.png"
 								alt="Horizon Pos Logo"
 								width={50}
 								height={50}

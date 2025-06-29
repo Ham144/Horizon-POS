@@ -37,19 +37,11 @@ import stackTraceSkuRoutes from "./routes/stackTrace.route.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 const corsOrigin = isProduction
-  ? [
-      "http://pos.mycsi.net",
-      "https://www.mycsi.net",
-      "http://192.168.169.12:5173",
-      "http://192.168.169.14",
-    ]
+  ? "http://104.128.189.242:5173"
   : [
-      "http://192.168.169.12:5173",
-      "http://localhost:8081",
-      "http://localhost:8082",
-      "http://pos.mycsi.net",
-      "https://pos.mycsi.net",
-    ];
+    "http://192.168.169.12:5173",
+    "http://localhost:8081",
+  ];
 
 const app = express();
 
