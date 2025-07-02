@@ -11,9 +11,8 @@ import { useLocation, useNavigate } from "react-router";
 import { useUserInfo } from "@/store";
 
 export default function Login({ className, ...props }) {
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
 	const [isVerifying, setIsVerifying] = useState(false);
+	const [email, setEmail] = useState("");
 
 	const path = useLocation().pathname;
 	const navigate = useNavigate();
@@ -55,7 +54,7 @@ export default function Login({ className, ...props }) {
 	const { mutateAsync: handleLogin, isPending } = useMutation({
 		mutationFn: async (e) => {
 			e.preventDefault();
-			const res = await login({ username, password });
+			const res = await login({ email });
 			return res.data;
 		},
 		retryDelay: 1000,
@@ -130,28 +129,14 @@ export default function Login({ className, ...props }) {
 							<div className="grid gap-4">
 								<div className="grid gap-2">
 									<Label htmlFor="username" className="text-base-content">
-										Username
+										Email
 									</Label>
 									<Input
-										id="username"
-										value={username}
-										onChange={(e) => setUsername(e.target.value)}
-										type="text"
-										placeholder="Input username anda"
-										required
-										className="border-base-content/20 text-black"
-										disabled={isPending || isVerifying}
-									/>
-								</div>
-								<div className="grid gap-2">
-									<Label htmlFor="password" className="text-base-content">
-										Password
-									</Label>
-									<Input
-										id="password"
-										type="password"
-										value={password}
-										onChange={(e) => setPassword(e.target.value)}
+										id="email"
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
+										type="email"
+										placeholder="Input Email anda"
 										required
 										className="border-base-content/20 text-black"
 										disabled={isPending || isVerifying}
@@ -173,10 +158,10 @@ export default function Login({ className, ...props }) {
 							</Button>
 							<div className="flex items-center">
 								<a
-									href="#"
+									href="/register"
 									className="ml-auto text-sm text-primary underline-offset-2 hover:underline"
 								>
-									Lupa password?
+									Belum punya akun?
 								</a>
 							</div>
 						</div>

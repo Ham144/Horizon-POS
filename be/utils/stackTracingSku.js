@@ -21,6 +21,9 @@ export async function stackTracingSku(
   invoice
 ) {
   try {
+    if (prevQuantity == receivedQuantityTrace && category != "spawn") {
+      return
+    }
     if (!itemId || !userId || !stackDescription) {
       console.warn(
         "⚠️ stackTracingSku butuh itemId, userId, dan stackDescription"

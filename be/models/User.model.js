@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    countryCode: String,
     telepon: {
       type: String,
     },

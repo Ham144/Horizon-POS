@@ -1,6 +1,6 @@
-const DEV_URL = "http://192.168.169.12:3000";
+const DEV_URL = "http://localhost:3004";
 // const PROD_URL = "http://192.168.169.14:3000";
-const PROD_URL = "https://pos.mycsi.net";
+const PROD_URL = "https://pos.horizonparadigm.com";
 
 export const NODE_ENV = "development";
 // export const NODE_ENV = "production";

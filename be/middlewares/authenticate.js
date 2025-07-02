@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 export const noAuthOriginalUrl = [
   "/api/v1/auth/login",
   "/api/v1/auth/register",
+  /^\/api\/v1\/auth\/verify\/[a-zA-Z0-9]+$/, // Ini akan cocok dengan '/verify/token'
   "/api/v1/auth/loginMobile",
   "/api/v1/report",
   "/api/v1/ping",
@@ -10,12 +11,20 @@ export const noAuthOriginalUrl = [
   "/api/v1/printer/printTest",
 ];
 const authenticate = (req, res, next) => {
-  //pass without authorization
-  if (noAuthOriginalUrl.includes(req.originalUrl)) {
+  const shouldSkip = noAuthOriginalUrl.some(pattern => {
+    if (typeof pattern === 'string') {
+      return pattern === req.originalUrl;
+    } else if (pattern instanceof RegExp) {
+      return pattern.test(req.originalUrl);
+    }
+    return false;
+  });
+
+  if (shouldSkip) {
     console.log("authentication skipped : ", req.originalUrl);
+    req.skip = true
     return next();
   }
-
   const token =
     req?.cookies?.token || req.headers.authorization?.split(" ")[1] || null; // Web token
   const mobileToken = req.headers.mobile?.split(" ")[1] || null; // Mobile token

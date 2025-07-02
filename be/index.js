@@ -37,11 +37,8 @@ import stackTraceSkuRoutes from "./routes/stackTrace.route.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 const corsOrigin = isProduction
-  ? "http://104.128.189.242:5173"
-  : [
-    "http://192.168.169.12:5173",
-    "http://localhost:8081",
-  ];
+  ? "https://pos.horizonparadigm.com"
+  : "http://localhost:5173"
 
 const app = express();
 
@@ -57,7 +54,7 @@ app.use(
 );
 
 app.get("/", async (req, res) => {
-  return res.send("CSI POS BACKEND : 200");
+  return res.send("ok : 200");
 });
 
 //database
@@ -109,20 +106,20 @@ const port = process.env.PORT;
 app.listen(port, () => {
   console.log("Server Berjalan di port ", port);
 
-  // Inisialisasi cron job pengiriman voucher code setelah server berjalan
-  (async () => {
-    try {
-      await initPengirimanVoucherCodeJob();
-      console.log(
-        "✅ Cron job pengiriman voucher code berhasil diinisialisasi"
-      );
-    } catch (error) {
-      console.error(
-        "❌ Gagal menginisialisasi cron job pengiriman voucher code:",
-        error
-      );
-    }
-  })();
+  // // Inisialisasi cron job pengiriman voucher code setelah server berjalan
+  // (async () => {
+  //   try {
+  //     await initPengirimanVoucherCodeJob();
+  //     console.log(
+  //       "✅ Cron job pengiriman voucher code berhasil diinisialisasi"
+  //     );
+  //   } catch (error) {
+  //     console.error(
+  //       "❌ Gagal menginisialisasi cron job pengiriman voucher code:",
+  //       error
+  //     );
+  //   }
+  // })();
 });
 
 // Fungsi untuk inisialisasi cron job pengiriman voucher code

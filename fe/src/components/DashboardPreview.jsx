@@ -22,13 +22,13 @@ const DashboardPreview = () => {
 	return (
 		<div className="mb-8 md:mb-10">
 			<div className="flex justify-between items-center mb-6 flex-col md:flex-row">
-				<h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-0 flex items-center gap-2">
+				<h2 className="text-xl md:text-2xl font-semibold mb-3 md:mb-0 flex items-center gap-2">
 					<ChartBar color="blue" />
 					Ringkasan Bisnis
 				</h2>
 				<button
 					onClick={() => navigate("/sales_report")}
-					className="btn btn-sm  hover:bg-blue-600 text-white shadow-md"
+					className="btn btn-sm hover:bg-blue-600 text-white shadow-md"
 				>
 					<List color="white" />
 					Detail Overview
@@ -37,16 +37,14 @@ const DashboardPreview = () => {
 
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 				{/* Penjualan Hari Ini */}
-				<div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+				<div className="p-6 rounded-lg shadow-md border border-gray-200">
 					<div className="flex items-center space-x-4">
-						<div className="p-3 bg-green-100 rounded-md">
+						<div className="p-3 rounded-md">
 							<ShoppingBag color="green" />
 						</div>
 						<div>
-							<h3 className="text-sm font-semibold text-gray-600">
-								Penjualan Hari Ini
-							</h3>
-							<p className="text-xl font-bold text-gray-800">
+							<h3 className="text-sm font-semibold">Penjualan Hari Ini</h3>
+							<p className="text-xl font-bold">
 								{userInfo ? (
 									Intl.NumberFormat("id-ID", {
 										style: "currency",
@@ -60,51 +58,49 @@ const DashboardPreview = () => {
 									<span className="badge badge-warning">Perlu Login</span>
 								)}
 							</p>
-							<p className="text-xs text-gray-500">Hanya outlet Anda</p>
+							<p className="text-xs">Hanya outlet Anda</p>
 						</div>
 					</div>
 				</div>
 
 				{/* Total Transaksi Hari Ini */}
-				<div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+				<div className="p-6 rounded-lg shadow-md border border-gray-200">
 					<div className="flex items-center space-x-4">
-						<div className="p-3 bg-blue-100 rounded-md">
+						<div className="p-3 rounded-md">
 							<ShoppingBag color="blue" />
 						</div>
 						<div>
-							<h3 className="text-sm font-semibold text-gray-600">
+							<h3 className="text-sm font-semibold">
 								Total Transaksi Hari Ini
 							</h3>
-							<p className="text-xl font-bold text-gray-800">
+							<p className="text-xl font-bold">
 								{userInfo ? (
 									simpleOverview?.totalTransaksiHariIni
 								) : (
 									<span className="badge badge-warning">Perlu Login</span>
 								)}
 							</p>
-							<p className="text-xs text-gray-500">Hanya outlet Anda</p>
+							<p className="text-xs">Hanya outlet Anda</p>
 						</div>
 					</div>
 				</div>
 
 				{/* Transaksi Void Hari Ini */}
-				<div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+				<div className="p-6 rounded-lg shadow-md border border-gray-200">
 					<div className="flex items-center space-x-4">
-						<div className="p-3 bg-red-100 rounded-md">
+						<div className="p-3 rounded-md">
 							<Delete color="red" />
 						</div>
 						<div>
-							<h3 className="text-sm font-semibold text-gray-600">
-								Transaksi Void Hari Ini
-							</h3>
-							<p className="text-xl font-bold text-gray-800">
+							<h3 className="text-sm font-semibold">Transaksi Void Hari Ini</h3>
+							<p className="text-xl font-bold">
 								{userInfo ? (
 									simpleOverview?.transaksiBatalHariIni
 								) : (
 									<span className="badge badge-warning">Perlu Login</span>
 								)}
 							</p>
-							<p className="text-xs text-gray-500">Hanya outlet Anda</p>
+							<p className="text-xs">Hanya outlet Anda</p>
 						</div>
 					</div>
 				</div>
@@ -112,15 +108,15 @@ const DashboardPreview = () => {
 
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
 				{/* Card: Outlet Terlaris Hari Ini */}
-				<div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 transform transition-transform duration-300 hover:scale-[1.01]">
-					<h3 className="text-base font-semibold text-gray-700 mb-4 flex items-center">
+				<div className="p-6 rounded-xl shadow-lg border border-gray-100 transform transition-transform duration-300 hover:scale-[1.01]">
+					<h3 className="text-base font-semibold mb-4 flex items-center">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
 							viewBox="0 0 24 24"
 							strokeWidth={1.5}
 							stroke="currentColor"
-							className="w-5 h-5 mr-2 text-blue-500"
+							className="w-5 h-5 mr-2"
 						>
 							<path
 								strokeLinecap="round"
@@ -130,38 +126,32 @@ const DashboardPreview = () => {
 						</svg>
 						Outlet Terlaris Hari Ini
 					</h3>
-					<div className="text-gray-800">
+					<div>
 						{userInfo ? (
 							<div className="space-y-3">
 								<p>
-									<span className="font-medium text-gray-600">
-										Nama Outlet:
-									</span>{" "}
+									<span className="font-medium">Nama Outlet:</span>{" "}
 									<span className="ml-1">
 										{simpleOverview?.outletTerlarisHariIni[0]?.outlet
 											?.namaOutlet || "Belum ada data"}
 									</span>
 								</p>
 								<p>
-									<span className="font-medium text-gray-600">
-										Kode Outlet:
-									</span>{" "}
+									<span className="font-medium">Kode Outlet:</span>{" "}
 									<span className="ml-1">
 										{simpleOverview?.outletTerlarisHariIni[0]?.outlet
 											?.kodeOutlet || "Belum ada data"}
 									</span>
 								</p>
 								<p>
-									<span className="font-medium text-gray-600">
-										Transaksi Hari Ini:
-									</span>{" "}
-									<span className="ml-1 font-semibold text-blue-600">
+									<span className="font-medium">Transaksi Hari Ini:</span>{" "}
+									<span className="ml-1 font-semibold">
 										{simpleOverview?.outletTerlarisHariIni[0]
 											?.jumlahTransaksi || "0"}
 									</span>
 								</p>
 								<p>
-									<span className="font-medium text-gray-600">Alamat:</span>{" "}
+									<span className="font-medium">Alamat:</span>{" "}
 									<span className="ml-1">
 										{simpleOverview?.outletTerlarisHariIni[0]?.outlet?.alamat ||
 											"Belum ada data"}
@@ -187,21 +177,21 @@ const DashboardPreview = () => {
 							</div>
 						)}
 					</div>
-					<p className="text-xs text-gray-500 mt-4 italic">
+					<p className="text-xs mt-4 italic">
 						*Data diambil dari semua outlet yang terdaftar.
 					</p>
 				</div>
 
 				{/* Card: 3 Barang Terlaris Hari Ini */}
-				<div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 transform transition-transform duration-300 hover:scale-[1.01]">
-					<h3 className="text-base font-semibold text-gray-700 mb-4 flex items-center">
+				<div className="p-6 rounded-xl shadow-lg border border-gray-100 transform transition-transform duration-300 hover:scale-[1.01]">
+					<h3 className="text-base font-semibold mb-4 flex items-center">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
 							viewBox="0 0 24 24"
 							strokeWidth={1.5}
 							stroke="currentColor"
-							className="w-5 h-5 mr-2 text-green-500"
+							className="w-5 h-5 mr-2"
 						>
 							<path
 								strokeLinecap="round"
@@ -215,14 +205,10 @@ const DashboardPreview = () => {
 						{userInfo ? (
 							<table className="table w-full text-sm">
 								<thead>
-									<tr className="bg-gray-50">
-										<th className="text-left py-2 px-3 text-gray-600">SKU</th>
-										<th className="text-left py-2 px-3 text-gray-600">
-											Rekor Terjual
-										</th>
-										<th className="text-left py-2 px-3 text-gray-600">
-											Terjual Hari Ini
-										</th>
+									<tr className="">
+										<th className="text-left py-2 px-3">SKU</th>
+										<th className="text-left py-2 px-3">Rekor Terjual</th>
+										<th className="text-left py-2 px-3">Terjual Hari Ini</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -233,20 +219,17 @@ const DashboardPreview = () => {
 												<td className="py-2 px-3 font-medium">
 													{item?.barang?.sku || "-"}
 												</td>
-												<td className="py-2 px-3 text-gray-700">
+												<td className="py-2 px-3">
 													{item?.barang?.terjual || "0"}
 												</td>
-												<td className="py-2 px-3 font-semibold text-green-600">
+												<td className="py-2 px-3 font-semibold">
 													{item?.totalQuantityTerjual || "0"}
 												</td>
 											</tr>
 										))
 									) : (
 										<tr>
-											<td
-												colSpan="3"
-												className="text-center py-4 text-gray-500"
-											>
+											<td colSpan="3" className="text-center py-4">
 												Belum ada data penjualan barang hari ini.
 											</td>
 										</tr>
@@ -272,7 +255,7 @@ const DashboardPreview = () => {
 							</div>
 						)}
 					</div>
-					<p className="text-xs text-gray-500 mt-4 italic">
+					<p className="text-xs mt-4 italic">
 						*Data diambil dari penjualan di semua outlet Anda.
 					</p>
 				</div>

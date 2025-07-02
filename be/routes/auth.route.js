@@ -3,7 +3,6 @@ import generateTokenJWT from "../utils/generateTokenJWT.js";
 import generateTokenMobile from "../utils/generateTokenMobile.js";
 import UserRefrensi from "../models/User.model.js";
 import Outlet from "../models/Outlet.model.js";
-import bcrypt from "bcryptjs";
 import authorize from "../middlewares/authorize.js";
 import generateUniqueKodeKasir from "../utils/generateUniqueKodeKasir.js"
 import Organization from "../models/Organization.model.js";
@@ -14,16 +13,14 @@ const router = Router();
 
 //register new USER (ini fitur baru buat SAAS doang, di CSI ga ada)
 router.post("/register", async (req, res) => {
-  const { username, password, email, telepon, organizationName, coutryCode } = req.body;
+  const { username, email, telepon, organizationName, coutryCode } = req.body;
+
 
   if (!organizationName) {
     return res.status(400).json({ message: "nama organisasi diperlukan" })
   }
   if (!username) {
     return res.status(400).json({ message: "username diperlukan" });
-  }
-  if (!password) {
-    return res.status(400).json({ message: "password diperlukan" });
   }
   if (!telepon) {
     return res.status(400).json({ message: "nomor telepon diperlukan" })
@@ -33,16 +30,16 @@ router.post("/register", async (req, res) => {
     return res.status(400).json({ message: "format nomor telepon salah, tidak perlu country code" })
   }
 
+
   try {
     const userDB = await UserRefrensi.findOne({ username });
     if (userDB) {
       return res.status(400).json({ message: "Anda sudah memiliki account, coba login langsung" });
     }
 
-    const hashedPassword = bcrypt.hashSync(password, 10)
+
     const userNew = new UserRefrensi()
     userNew.username = username
-    userNew.password = hashedPassword
     userNew.email = email
 
     userNew.telepon = coutryCode || "+62" + telepon
@@ -53,26 +50,30 @@ router.post("/register", async (req, res) => {
       name: organizationName
     })
 
+
     if (duplicateOrganization) {
       return res.status(400).json({ message: "Nama Orgaisasi telah ada, mohon buat yang berbeda" })
     }
 
     const organizationNew = new Organization()
-    organizationNew.name = organtizationName
+    organizationNew.name = organizationName
     organizationNew.subscriptionPlan = "trial"
     organizationNew.subscriptionExpiredAt = new Date().getDate() + process.env.EXPIRES_TOKEN_DAY
-    organizationNew.owner = userNew.username
+    organizationNew.owner = userNew._id
 
     await userNew.save()
     await organizationNew.save()
 
-    const generatedCrypto = crypto.randomBytes(101)
+
     const subject = "Selamat Siang Bapak/Ibu. Berikut adalah tombol KONFIRMASI pendaftaran akun HORIZON POS";
 
-    //masukkan ke user
-    userNew.registerCrypto = generatedCrypto
-    userNew.registerCrytoExpiresIn = new Date(new Date().getHours() + 24);
-
+    const generatedCrypto = crypto.randomBytes(101).toString('hex');
+    userNew.registerCrypto = generatedCrypto; // Nama properti yang benar
+    // Perbaiki typo 'Cryto' menjadi 'Crypto'
+    userNew.registerCryptoExpiresIn = new Date(new Date().setHours(new Date().getHours() + 24));
+    if (!generatedCrypto) {
+      return res.status(400).json({ message: "gagal membuat link" })
+    }
     const htmlContent = `
 <!DOCTYPE html>
 <html>
@@ -119,7 +120,7 @@ router.post("/register", async (req, res) => {
         .button {
             display: inline-block;
             background-color: #7F00FF; /* Warna tombol ungu tua */
-            color: #ffffff;
+            color: #fff;
             padding: 15px 30px;
             border-radius: 5px;
             text-decoration: none;
@@ -151,11 +152,11 @@ router.post("/register", async (req, res) => {
             <p>Jika Anda tidak pernah mencoba mendaftar, mohon abaikan email ini. link akan mati dalam waktu 24 jam dan email anda akan dihapus dari sistem kami</p>
         </div>
         <div class="button-container">
-            <a href="${process.env.FRONTEND_BASE}/verify/${generatedCrypto}" target="_blank" class="button">Konfirmasi Pendaftaran</a>
-        </div>
+    <a href="${process.env.FRONTEND_BASE}/verify/${generatedCrypto}" target="_blank" class="button">Konfirmasi Pendaftaran</a>
+</div>
 
         <div class="footer">
-            <p>&copy; 2025 Horizon POS. Semua hak cipta dilindungi.</p>
+            <p>&copy; 2025 Horizon Paradigm. Semua hak cipta dilindungi.</p>
             <p>Email ini dikirim secara otomatis, mohon tidak membalas.</p>
         </div>
     </div>
@@ -163,11 +164,13 @@ router.post("/register", async (req, res) => {
 </html>
 `;
 
+
     await sendEmailService({ toEmail: email, htmlContent, subject });
 
     return res.json({ message: "berhasil mengirim konfirmasi pendaftaran ke email anda, konfirmasi email anda" })
 
   } catch (error) {
+    console.log(error)
     return res.status(500).json({ message: JSON.stringify(error) });
   }
 });
@@ -176,6 +179,7 @@ router.get("/verify/:registerCrypto", async (req, res) => {
   const { registerCrypto } = req.params
   if (!registerCrypto) return res.status(500).json({ message: "gagal, tidak ada data terkirim" })
   else {
+    console.log(registerCrypto)
     try {
       const userDB = await UserRefrensi.findOne({
         registerCrypto
@@ -187,7 +191,18 @@ router.get("/verify/:registerCrypto", async (req, res) => {
       userDB.isEmailVerified = true
       await userDB.save()
 
-      return res.json({ message: "Berhasil mengkonfirmasi email anda, cobalah untuk login" })
+      //langsung login
+      const token = generateTokenJWT(userDB._id)
+
+      // Set cookie di sini
+      res.cookie("token", token, {
+        httpOnly: true, // agar tidak bisa diakses dari client-side JS
+        secure: process.env.NODE_ENV,
+        sameSite: "lax",
+        maxAge: process.env.EXPIRES_TOKEN_DAY * 24 * 60 * 60 * 1000, // 7 hari
+      });
+
+      return res.json({ message: "Berhasil mengkonfirmasi email anda.." })
     } catch (error) {
       return res.status(500).json({ message: "internal server error", error })
     }
@@ -207,10 +222,6 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "username atau password salah" });
     }
 
-    const isPasswordMatch = bcrypt.compareSync(password, userDB.password);
-    if (!isPasswordMatch) {
-      return res.status(400).json({ message: "username atau password salah" });
-    }
 
     const sanitizedUser = {
       _id: userDB._id,
@@ -495,10 +506,6 @@ router.post("/loginMobile", authorize, async (req, res) => {
   const { username, password } = req.body;
   const userDB = await UserRefrensi.findOne({ username });
   if (!userDB) {
-    return res.status(400).json({ message: "username atau password salah" });
-  }
-  const isPasswordMatch = bcrypt.compareSync(password, userDB.password);
-  if (!isPasswordMatch) {
     return res.status(400).json({ message: "username atau password salah" });
   }
 

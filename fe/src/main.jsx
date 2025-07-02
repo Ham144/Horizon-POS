@@ -36,68 +36,79 @@ import ConvertVoucherToGenerated from "./pages/ConvertVoucherToGenerated";
 import DownloadApkPage from "./pages/DownloadsApkPage";
 // import BackupSalesReport from "../src/pages/TELAH_DIHAPUS/backup_SalesReport";
 import StackTraceSkuPage from "./pages/StackTraceSkuPage";
+import RegisterPage from "./pages/RegisterPage";
+import RegistrationSuccess from "./pages/RegistrationSuccess";
+import VerifyMagicLinkPage from "./pages/VerifyMagicLinkPage";
 
 const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route path="/" element={<LevelWrapper />}>
-        {/*semua page mengecek sudah login apa belum getUserInfo */}
-        <Route index={true} path="/" element={<Home />} />
+	createRoutesFromElements(
+		<Route path="/" element={<App />}>
+			<Route path="/" element={<LevelWrapper />}>
+				{/*semua page mengecek sudah login apa belum getUserInfo */}
+				<Route index={true} path="/" element={<Home />} />
 
-        <Route path="/item_library" element={<ItemLibrary />} />
-        <Route path="/diskon" element={<Diskon />} />
-        <Route path="/promo" element={<Promo />} />
-        <Route path="/voucher" element={<Voucher />} />
-        <Route path="/downloads/apk" element={<DownloadApkPage />} />
-        <Route
-          path="/purchase_order_create"
-          element={<PurchaseOrdersCreate />}
-        />
-        <Route
-          path="/purchase_order_receive"
-          element={<PurchaseOrderReceive />}
-        />
-        <Route
-          path="/artikel_documentation"
-          element={<Artikel_Documentation />}
-        />
-        <Route path="/dashboard" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/stack_trace" element={<StackTraceSkuPage />} />
-        <Route path="/spg_list" element={<SpgList />} />
-        <Route path="/all_account" element={<AllAccounts />} />
-        <Route path="/kasir_list" element={<KasirList />} />
-        <Route path="/outlet_list" element={<Outlet />} />
-        <Route path="/brands" element={<BrandList />} />
-        <Route path="/report_list" element={<ReportList />} />
-        <Route path="/payment_method" element={<PaymentMethod />} />
-        <Route path="/invoices" element={<Invoices />} />
-        <Route path="/sumber_thirdparty" element={<SumberThirdParty />} />
-        <Route path="/sales_report" element={<SaleReport />} />
-        <Route path="/email_config" element={<EmailConfig />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/database_feature" element={<DatabaseFeature />} />
-        <Route
-          path="/kwitansi_pembayaran_tertunda"
-          element={<KwitansiPembayaranTertunda />}
-        />
-        <Route path="/customer_list" element={<Customer_list />} />
-        <Route
-          path="/voucher/generation"
-          element={<ConvertVoucherToGenerated />}
-        />
-        {/* </Route> */}
-      </Route>
-      <Route index={true} path="/login" element={<Login />} />
-      <Route path="*" element={<NotFound />} />
-    </Route>
-  )
+				<Route path="/item_library" element={<ItemLibrary />} />
+				<Route path="/diskon" element={<Diskon />} />
+				<Route path="/promo" element={<Promo />} />
+				<Route path="/voucher" element={<Voucher />} />
+				<Route path="/downloads/apk" element={<DownloadApkPage />} />
+				<Route
+					path="/purchase_order_create"
+					element={<PurchaseOrdersCreate />}
+				/>
+				<Route
+					path="/purchase_order_receive"
+					element={<PurchaseOrderReceive />}
+				/>
+				<Route
+					path="/artikel_documentation"
+					element={<Artikel_Documentation />}
+				/>
+				<Route path="/dashboard" element={<Home />} />
+				<Route path="/profile" element={<Profile />} />
+				<Route path="/stack_trace" element={<StackTraceSkuPage />} />
+				<Route path="/spg_list" element={<SpgList />} />
+				<Route path="/all_account" element={<AllAccounts />} />
+				<Route path="/kasir_list" element={<KasirList />} />
+				<Route path="/outlet_list" element={<Outlet />} />
+				<Route path="/brands" element={<BrandList />} />
+				<Route path="/report_list" element={<ReportList />} />
+				<Route path="/payment_method" element={<PaymentMethod />} />
+				<Route path="/invoices" element={<Invoices />} />
+				<Route path="/sumber_thirdparty" element={<SumberThirdParty />} />
+				<Route path="/sales_report" element={<SaleReport />} />
+				<Route path="/email_config" element={<EmailConfig />} />
+				<Route path="/about" element={<About />} />
+				<Route path="/database_feature" element={<DatabaseFeature />} />
+				<Route
+					path="/kwitansi_pembayaran_tertunda"
+					element={<KwitansiPembayaranTertunda />}
+				/>
+				<Route path="/customer_list" element={<Customer_list />} />
+				<Route
+					path="/voucher/generation"
+					element={<ConvertVoucherToGenerated />}
+				/>
+				{/* </Route> */}
+			</Route>
+			<Route index={true} path="/login" element={<Login />} />
+			<Route index={true} path="/register" element={<RegisterPage />} />
+			<Route path="/verify/:crypto" element={<VerifyMagicLinkPage />} />
+
+			<Route
+				index={true}
+				path="/registration-success"
+				element={<RegistrationSuccess />}
+			/>
+			<Route path="*" element={<NotFound />} />
+		</Route>
+	)
 );
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
-  <QueryClientProvider client={queryClient}>
-    <RouterProvider router={router} />
-  </QueryClientProvider>
+	<QueryClientProvider client={queryClient}>
+		<RouterProvider router={router} />
+	</QueryClientProvider>
 );

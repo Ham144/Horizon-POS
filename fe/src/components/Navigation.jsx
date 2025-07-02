@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout } from "@/api/authApi";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const SideDrawer = ({ children }) => {
 	const [activeMenu, setActiveMenu] = useState();
@@ -148,6 +149,9 @@ const SideDrawer = ({ children }) => {
 	useEffect(() => {
 		setCurrentPage(pathname.replace("/", "").replace("_", " ").toUpperCase());
 		setNosidebar(pathname.includes("login"));
+		setNosidebar(pathname.includes("registration-success"));
+		setNosidebar(pathname.includes("register"));
+		setNosidebar(pathname.includes("verify"));
 
 		// Invalidate userInfo query saat pathname berubah
 		if (!pathname.includes("login")) {
@@ -323,7 +327,8 @@ const SideDrawer = ({ children }) => {
 
 				{/* Sidebar Footer */}
 				<div className="p-4 border-t border-purple-600 text-purple-200 text-xs bg-[#7F00FF]">
-					<h2 className="font-bold mb-2 text-white">Help & Support</h2>
+					<LanguageSwitcher />
+
 					<p className="flex gap-2">
 						<a
 							href="/artikel_documentation"

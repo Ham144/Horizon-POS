@@ -1,6 +1,18 @@
 import axios from "axios";
 import { BASE_URL } from "./constant";
 
+export const register = async (body) => {
+  const response = await axios.post(`${BASE_URL}/api/v1/auth/register`, body, {
+    withCredentials: true,
+  });
+  return response?.data;
+}
+
+export const verifyMagicLink = async (crypto) => {
+  const response = await axios.get(`${BASE_URL}/api/v1/auth/verify/${crypto}`);
+  return response.data
+}
+
 export const login = async (body) => {
   const response = await axios.post(`${BASE_URL}/api/v1/auth/login`, body, {
     withCredentials: true,

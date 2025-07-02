@@ -5,30 +5,29 @@ const normalizeUrl = (url) =>
   url.split("?")[0].replace(/\/$/, "").toLowerCase();
 
 const authorize = async (req, res, next) => {
-  //pass without authorization
-  if (noAuthOriginalUrl?.includes(req?.originalUrl)) {
-    console.log("authorization skipped : ", req?.originalUrl);
-    return next();
-  }
-
   try {
+    if (req.skip) return next()
     let userDB;
-    if (req?.userId) {
-      userDB = await UserRefrensi.findById(req?.userId);
+    // req.userId harus sudah ada dari middleware 'authenticate' sebelumnya
+    if (!req.userId) {
+      // Ini seharusnya tidak terjadi jika authenticate berfungsi benar
+      return res.status(403).json({ message: "Pengguna tidak terautentikasi." });
     }
+
+
     if (!userDB) {
       return res.status(403).json({
-        message: "Anda Tidak ditemukan di Database, coba login ulang",
+        message: "Pengguna tidak ditemukan di database, coba login ulang.",
       });
     }
-    req.userDB = userDB;
+    req.userDB = userDB; // Simpan objek user lengkap di req
 
     const normalizedRequestUrl = normalizeUrl(req.originalUrl);
     console.error(
-      "endpoint array yang ditolak: ",
+      "Endpoint array yang ditolak: ",
       userDB.blockedAccess.map(normalizeUrl)
     );
-    console.warn("endpoint yang diperiksa: ", normalizedRequestUrl);
+    console.warn("Endpoint yang diperiksa: ", normalizedRequestUrl);
 
     // Check if any blocked path is a prefix of the current request URL
     const isBlocked = userDB.blockedAccess.some((blockedPath) =>
@@ -36,20 +35,21 @@ const authorize = async (req, res, next) => {
     );
 
     if (isBlocked) {
-      console.error("authorized endpoint ditolak : ", req.originalUrl);
+      console.error("Authorized endpoint ditolak: ", req.originalUrl);
       return res
         .status(403)
-        .json({ message: "Maaf, Anda tidak memiliki akses Fitur ini" });
+        .json({ message: "Maaf, Anda tidak memiliki akses fitur ini." });
     } else {
-      console.log("authorized endpoint success : ", req.originalUrl);
-      next();
+      console.log("Authorized endpoint success: ", req.originalUrl);
+      next(); // Lanjutkan ke route handler
     }
   } catch (error) {
-    console.log("authorized endpoint failed : ", req.originalUrl);
+    console.error("Authorization failed for:", req.originalUrl, error);
     return res
       .status(500)
-      .json({ message: "authorized endpoint failed ", error });
+      .json({ message: "Autorisasi gagal karena kesalahan server.", error: error.message });
   }
 };
+
 
 export default authorize;

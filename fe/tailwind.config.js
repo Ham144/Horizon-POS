@@ -5,6 +5,6 @@ export default {
   plugins: [require("daisyui"), require("tailwindcss-animate")],
   daisyui: {
     // Di sinilah keajaibannya terjadi
-    daisyui: "nord"
+    daisyui: ["light"]
   },
 };
