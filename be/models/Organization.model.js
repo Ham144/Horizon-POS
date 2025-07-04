@@ -37,10 +37,10 @@ const organizationSchema = new mongoose.Schema(
                 default: 5
             }
         },
-        outletId: {
+        outletId: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Outlet",
-        }
+        }]
     },
     { timestamps: true }
 );

@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema(
     kodeKasir: {
       type: String,
     }, //3 huruf random dari usernamenya exp: HM1 krn username yafizham
-    organizationId: {
+    org: {
       // foreign key
       type: mongoose.Schema.Types.ObjectId,
       ref: "Organization",
