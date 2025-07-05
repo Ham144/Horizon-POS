@@ -20,6 +20,7 @@ router.post("/register", async (req, res) => {
   if (!organizationName) {
     return res.status(400).json({ message: "nama organisasi diperlukan" })
   }
+
   if (!username) {
     return res.status(400).json({ message: "username diperlukan" });
   }

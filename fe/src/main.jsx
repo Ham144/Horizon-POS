@@ -39,6 +39,7 @@ import StackTraceSkuPage from "./pages/StackTraceSkuPage";
 import RegisterPage from "./pages/RegisterPage";
 import RegistrationSuccess from "./pages/RegistrationSuccess";
 import VerifyMagicLinkPage from "./pages/VerifyMagicLinkPage";
+	
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -104,6 +105,7 @@ const router = createBrowserRouter(
 		</Route>
 	)
 );
+
 
 const queryClient = new QueryClient();
 

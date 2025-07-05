@@ -1,4 +1,4 @@
-import DaftartDiskon from "../models/DaftarDiskon.model.js";
+import DaftartDiskon from "../models/DaftarDiskon.model";
 
 export const registerDiskon = async (req, res) => {
   const {
@@ -56,7 +56,7 @@ export const registerDiskon = async (req, res) => {
     }
     return res.status(400).json({ message: "terjadi kesalahan", error: error });
   }
-};
+};  
 
 export const deleteDiskon = async (req, res) => {
   const { id } = req.params;
