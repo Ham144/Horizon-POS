@@ -60,6 +60,9 @@ app.get("/", async (req, res) => {
 //database
 connectDB();
 
+app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
+
+
 //public seutuhnya || kalau sebagian, tambah ke noAuthOriginalUrl sj
 app.use("/api/v1/report", reportRoutes);
 app.use("/api/v1/document", documentRoutes);
@@ -147,3 +150,8 @@ const initPengirimanVoucherCodeJob = async () => {
     throw error;
   }
 };
+
+// Untuk SPA fallback (route selain API, dsb.): letakkan terakhir untuk tidak menangkap /api
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+});
