@@ -29,15 +29,13 @@ import paymentMethodRoutes from "./routes/paymentMethod.route.js";
 import adminRoutes from "./routes/admin.route.js";
 import cookieParser from "cookie-parser";
 import salesReportRoutes from "./routes/saleReport.route.js";
-import pengirimanVoucherCodeJob, {
-  verifyEmailConnection,
-} from "./cronjobs/pengirimanVoucherCode.js";
 import donwloadRoutes from "./routes/download.route.js";
 import stackTraceSkuRoutes from "./routes/stackTrace.route.js";
+import path from "path"
 
 const isProduction = process.env.NODE_ENV === "production";
 const corsOrigin = isProduction
-  ? "https://pos.horizonparadigm.com"
+  ? "https://demo-pos-horizonawdawd.onrender.com"
   : "http://localhost:5173"
 
 const app = express();
@@ -61,7 +59,6 @@ app.get("/", async (req, res) => {
 connectDB();
 
 app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
-
 
 //public seutuhnya || kalau sebagian, tambah ke noAuthOriginalUrl sj
 app.use("/api/v1/report", reportRoutes);
@@ -106,50 +103,10 @@ app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/stackTraceSku", stackTraceSkuRoutes);
 
 const port = process.env.PORT;
+
 app.listen(port, () => {
-  console.log("Server Berjalan di port ", port);
-
-  // // Inisialisasi cron job pengiriman voucher code setelah server berjalan
-  // (async () => {
-  //   try {
-  //     await initPengirimanVoucherCodeJob();
-  //     console.log(
-  //       "✅ Cron job pengiriman voucher code berhasil diinisialisasi"
-  //     );
-  //   } catch (error) {
-  //     console.error(
-  //       "❌ Gagal menginisialisasi cron job pengiriman voucher code:",
-  //       error
-  //     );
-  //   }
-  // })();
+  console.log("Server Berjalan di port ", port)
 });
-
-// Fungsi untuk inisialisasi cron job pengiriman voucher code
-const initPengirimanVoucherCodeJob = async () => {
-  try {
-    // Verifikasi koneksi email
-    const isEmailValid = await verifyEmailConnection();
-    if (!isEmailValid) {
-      console.warn(
-        "⚠️ Konfigurasi email tidak valid, pengiriman voucher code tidak akan berjalan"
-      );
-      return false;
-    }
-
-    // Start pengiriman voucher code job
-    pengirimanVoucherCodeJob.start();
-    console.log("✅ Pengiriman voucher code job berhasil dijalankan");
-
-    return true;
-  } catch (error) {
-    console.error(
-      "❌ Error saat inisialisasi cron job pengiriman voucher code:",
-      error
-    );
-    throw error;
-  }
-};
 
 // Untuk SPA fallback (route selain API, dsb.): letakkan terakhir untuk tidak menangkap /api
 app.get("*", (req, res) => {
