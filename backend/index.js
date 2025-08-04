@@ -51,15 +51,16 @@ app.use(
   })
 );
 
+
+const __dirname = path.resolve()
+app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
+
 app.get("/", async (req, res) => {
   return res.send("ok : 200");
 });
 
 //database
 connectDB();
-
-const __dirname = path.resolve()
-app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
 
 //public seutuhnya || kalau sebagian, tambah ke noAuthOriginalUrl sj
 app.use("/api/v1/report", reportRoutes);
@@ -75,9 +76,20 @@ app.get("/api/v1/ping", async (_, res) => {
   });
 });
 
-//private
-app.use(authenticate);
-app.use(authorize);
+
+//skip middleware untuk frontend
+app.use((req, res, next) => {
+  const isPublicPath =
+    req.path === "/" ||
+    !req.path.startsWith("/api")
+
+  if (isPublicPath) return next();
+
+  // selain itu, jalankan middleware auth
+  authenticate(req, res, () => authorize(req, res, next));
+});
+
+
 //routes
 app.use("/api/v1/payment", paymentRoute);
 app.use("/api/v1/inventories", inventoryRoutes);
@@ -105,11 +117,13 @@ app.use("/api/v1/stackTraceSku", stackTraceSkuRoutes);
 
 const port = process.env.PORT;
 
-app.listen(port, () => {
-  console.log("Server Berjalan di port ", port)
-});
-
 // Untuk SPA fallback (route selain API, dsb.): letakkan terakhir untuk tidak menangkap /api
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+});
+
+
+
+app.listen(port, () => {
+  console.log("Server Berjalan di port ", port)
 });
