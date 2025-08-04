@@ -58,6 +58,7 @@ app.get("/", async (req, res) => {
 //database
 connectDB();
 
+const __dirname = path.resolve()
 app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
 
 //public seutuhnya || kalau sebagian, tambah ke noAuthOriginalUrl sj
