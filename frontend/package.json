@@ -29,7 +29,7 @@
 		"react-toastify": "^11.0.5",
 		"tailwind-merge": "^3.0.2",
 		"tailwindcss-animate": "^1.0.7",
-		"vite": "^7.0.6",
+		"vite": "^5.4.19",
 		"zustand": "^5.0.3"
 	},
 	"devDependencies": {
